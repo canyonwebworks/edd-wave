@@ -1,3 +1,10 @@
+2.0 - June 2026
+ * Use Stripe webhooks charge.updated to gather balance_transaction instead of edds_payment_complete for more reliability
+ * Add provisional Stripe refund handling
+ * Add provisional EDD Multi Currency compatibilty
+ * Namespacing update
+ * Security review
+
 1.14 - Jan 2024
  * Better Stripe support
  * Don't autoload settings stored in wp-options table
