@@ -61,7 +61,7 @@ final class EDDWave {
 		add_action( 'init', [ $this, 'init' ] );
 
 		if ( empty( $this->access_token ) && empty( $this->full_access_token ) ) {
-			edd_debug_log( 'EDD + Wave warning: a Wave access token must be saved in settings to reach API.' );
+			edd_debug_log( __( 'Wave + EDD warning: a Wave access token must be saved in settings to reach API.', 'edd-wave' ) );
 			return;
 		}
 
@@ -97,12 +97,12 @@ final class EDDWave {
 				new Settings;
 
 				// Register OAuth handlers
-				add_action( 'admin_post_edd_wave_oauth_connect', [ $this, 'oauth_connect_redirect' ] );
-				add_action( 'admin_post_edd_wave_oauth_callback', [ $this, 'oauth_callback_handler' ] );
-				add_action( 'admin_post_nopriv_edd_wave_oauth_callback', [ $this, 'oauth_callback_handler' ] ); // Just in case
+				add_action( 'admin_post_edd_wave_oauth_connect',            [ $this, 'oauth_connect_redirect' ] );
+				add_action( 'admin_post_edd_wave_oauth_callback',           [ $this, 'oauth_callback_handler' ] );
+				add_action( 'admin_post_nopriv_edd_wave_oauth_callback',    [ $this, 'oauth_callback_handler' ] ); // Just in case
 
 			}
-			load_plugin_textdomain( 'edd-wave', false, 'edd-wave/lang' );
+			load_plugin_textdomain( 'edd-wave', false, EDD_WAVE_PLUGIN_DIR . '/lang' );
 
 		}
 
@@ -134,21 +134,21 @@ final class EDDWave {
 			$response = $api->make_request( 'v2/checkout/orders/' . urlencode( $paypal_order_id ), [], [], 'GET' );
 
 			if ( empty( $response->id ) || 'completed' !== strtolower( $response->status ) ) {
-				throw new Exception( 'Error: $response->id not found or $response->status not "COMPLETED"' );
+				throw new Exception( '$response->id not found or $response->status not "COMPLETED"' );
 			}
 
 			if ( ! $response->purchase_units ) {
-				throw new Exception( 'Error: Bad (unusable) response from PayPal API.' );
+				throw new Exception( __( 'Bad (unusable) response from PayPal API.', 'edd-wave' ) );
 				return;
 			}
 
 			if ( ! $payment->downloads ) {
-				throw new Exception( 'Error: EDD payment strangely doesn\'t seem to include any downloads.' );
+				throw new Exception( __( 'EDD payment object doesn\'t seem to include any downloads.', 'edd-wave' ) );
 				return;
 			}
 
 		} catch ( Exception $e ) {
-			edd_debug_log( 'EDD + Wave threw exception: ' . $e->getMessage() );
+			edd_debug_log( 'Wave + EDD Exception: ' . $e->getMessage() );
 			return;
 
 		}
@@ -188,7 +188,7 @@ final class EDDWave {
 		}
 
 		if ( empty( $line_items ) ) {
-			edd_debug_log( 'Wave + EDD error: no data collected to send to Wave!' );
+			edd_debug_log( __( 'Wave + EDD error: no data collected to send to Wave!', 'edd-wave' ) );
 			return;
 		}
 
@@ -223,7 +223,7 @@ final class EDDWave {
 		try {
 			$balance_transaction = edds_api_request( 'BalanceTransaction', 'retrieve', $charge->balance_transaction );
 		} catch ( Exception $e ) {
-			edd_debug_log( 'Wave + EDD error: API Balance Transaction fetch failed. Aborting' );
+			edd_debug_log( __( 'Wave + EDD error: API Balance Transaction fetch failed. Aborting', 'edd-wave' ) );
 			return;
 		}
 
@@ -236,7 +236,7 @@ final class EDDWave {
 		// Get EDD order line items array
 		$line_items = $this->get_line_items( $payment );
 		if ( empty( $line_items ) ) {
-			edd_debug_log( 'Wave + EDD error: no data collected to send to Wave!' );
+			edd_debug_log( __( 'Wave + EDD error: no data collected to send to Wave!', 'edd-wave' ) );
 			return;
 		}
 
@@ -249,7 +249,7 @@ final class EDDWave {
 				'balance'   => 'DEBIT'
 			];
 		} else {
-			edd_debug_log( 'Wave + EDD: Because we are missing the merchant fee, it will be impossible to send a balanced transaction to Wave. Aborting.' );
+			edd_debug_log( __( 'Wave + EDD warning: Merchant fee data is missing so it is impossible to send a balanced transaction to Wave. Aborting.', 'edd-wave' ) );
 			return;
 		}
 
@@ -295,7 +295,7 @@ final class EDDWave {
 				}
 			}
 			if ( empty( $default_account ) ) {
-				edd_debug_log( 'EDD + Wave error: Could not get Wave account ID to apply refund to.' );
+				edd_debug_log( __( 'Wave + EDD error: Could not get Wave account ID to apply refund to.', 'edd-wave' ) );
 				return;
 			}
 			$line_items['accountId'] = $default_account;
@@ -327,12 +327,12 @@ final class EDDWave {
 		foreach ( $payment->cart_details as $item ) {
 
 			if ( ! isset( $item['id'] ) ) {
-				edd_debug_log( 'EDD + Wave: A cart item was skipped in the foreach() loop, due to missing item ID.' );
+				edd_debug_log( __( 'Wave + EDD warning: A cart item was skipped in the foreach() loop, due to missing item ID.', 'edd-wave' ) );
 				continue;
 			}
 
 			if ( isset( $item['item_number']['options']['is_upgrade'] ) && true === $item['item_number']['options']['is_upgrade'] ) {
-				edd_debug_log( 'EDD + Wave: EDD Software License upgrade purchase not logged in Wave for payment ID: ' . $payment->ID );
+				edd_debug_log( __( 'Wave + EDD warning: Software License upgrade purchase not logged in Wave for payment ID: ', 'edd-wave' ) . $payment->ID );
 				continue;
 			}
 
@@ -472,7 +472,7 @@ final class EDDWave {
 			return; // we are successful/finished, no need to log error
 		}
 
-		edd_debug_log( 'EDD + Wave: Payment not created at Wave.' );
+		edd_debug_log( __( 'Wave + EDD error: Payment not created at Wave.', 'edd-wave' ) );
 
 	}
 
@@ -500,7 +500,7 @@ final class EDDWave {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			edd_debug_log( 'EDD + Wave: HTTP request error' . print_r( $response->get_error_message(), true ) );
+			edd_debug_log( 'Wave + EDD HTTP request error: ' . print_r( $response->get_error_message(), true ) );
 			return false;
 		}
 
@@ -509,7 +509,7 @@ final class EDDWave {
 		if ( 200 === $response_code ) {
 			return json_decode( $response['body'], true );
 		} else {
-			edd_debug_log( 'EDD + Wave: HTTP status code was ' . $response_code );
+			edd_debug_log( 'Wave + EDD: HTTP status code was ' . $response_code );
 		}
 		return false;
 
@@ -636,7 +636,7 @@ final class EDDWave {
 		$wave_accounts = $this->get_accounts( 'INCOME' );
 
 		if ( ! isset( $wave_accounts['data']['business']['accounts']['edges'] ) ) {
-			edd_debug_log( 'EDD Wave: Failed to fetch accounts from Wave.' );
+			edd_debug_log( __( 'Wave + EDD error: Failed to fetch accounts from Wave.', 'edd-wave' ) );
 			return false;
 		}
 
@@ -667,7 +667,7 @@ final class EDDWave {
 			wp_redirect( $url );
 			exit;
 		} else {
-			wp_die( 'OAuth not configured properly. Please check Client ID and Secret in settings.' );
+			wp_die( __( 'Wave + EDD: OAuth not configured properly. Please check Client ID and Secret in settings.', 'edd-wave' ) );
 		}
 
 	}
@@ -675,7 +675,7 @@ final class EDDWave {
 	public function oauth_callback_handler() {
 
 		if ( ! isset( $_GET['code'], $_GET['state'] ) ) {
-			wp_die( 'Invalid OAuth response' );
+			wp_die( 'Wave + EDD: Invalid OAuth response' );
 		}
 
 		$oauth = new OAuth();
