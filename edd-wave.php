@@ -6,6 +6,7 @@
  * Version: 2.0
  * Author: Canyon Webworks
  * Text Domain: edd-wave
+ * Domain Path: /lang
  *
  * Easy Digital Downloads Wave
  * Copyright: (c) 2022-2026 Canyon Webworks
