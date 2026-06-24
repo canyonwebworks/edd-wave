@@ -107,11 +107,11 @@ class Settings {
 		<div class="wrap">
 			<h1>EDD Wave Settings</h1>
 
-            <div class="white-bx-rnd">
-                <p><?php echo sprintf( __( 'Don\'t know where to start? <a href="%s" target="_blank" rel="noopener">Start with a Wave account and API Application</a>', 'edd-wave' ), 'https://developer.waveapps.com/hc/en-us/articles/360020948171-Create-a-Wave-Account-and-Test-Businesses' ); ?>.</p>
+			<div class="white-bx-rnd">
+				<p><?php echo sprintf( __( 'Don\'t know where to start? <a href="%s" target="_blank" rel="noopener">Start with a Wave account and API Application</a>', 'edd-wave' ), 'https://developer.waveapps.com/hc/en-us/articles/360020948171-Create-a-Wave-Account-and-Test-Businesses' ); ?>.</p>
 
-                <p>Also: <em>please</em> make a <a href="https://paypal.me/canyonwebworks" target="_blank" rel="noopener">$1-5 donation to Canyon Webworks</a> to support this work.</p>
-            </div>
+				<p>Also: <em>please</em> make a <a href="https://paypal.me/canyonwebworks" target="_blank" rel="noopener">$1-5 donation to Canyon Webworks</a> to support this work.</p>
+			</div>
 
 			<form id="edd-wave-settings-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" novalidate>
 				<input type="hidden" class="regular-text ltr" name="edd_wave_settings_nonce" value="<?php echo wp_create_nonce( 'edd-wave-settings' ); ?>"/>
@@ -167,13 +167,13 @@ class Settings {
 					} ?>
 				</fieldset>
 
-                <?php if ( empty( $full_access_token ) && empty( $client_id ) && empty( $client_secret ) ) { ?>
-                <!-- </form>
-            </div> -->
-                <?php // return;
-                }
+				<?php if ( empty( $full_access_token ) && empty( $client_id ) && empty( $client_secret ) ) { ?>
+				<!-- </form>
+			</div> -->
+				<?php // return;
+				}
 
-                $this->output_business_account_select();
+				$this->output_business_account_select();
 				$this->output_income_account_selects();
 				$this->output_product_mapping_table();
 				$this->output_expenses_settings_table();
@@ -186,118 +186,118 @@ class Settings {
 
 	<?php }
 
-    protected function output_business_account_select() { ?>
+	protected function output_business_account_select() { ?>
 
-        <h2>Business Account</h2>
+		<h2>Business Account</h2>
 
-        <?php // Get list of businesses from Wave Apps API
-        $businesses = eddwave()->get_wave_businesses();
-        if ( ! $businesses || isset( $businesses['errors'] ) ) { ?>
-            <div>
-                <?php esc_html_e( 'Error fetching businesses for this token: ', 'edd-wave' ); ?>
-                <strong><?php esc_html_e( $businesses['errors'][0]['message'] ); ?> </strong>
-                <br><?php esc_html_e( 'Verify your token is correct, valid for this domain, and try re-loading the page', 'edd-wave' );
-                submit_button( null, '', 'edd-wave-submit' ); ?>
-            </div>
-            <?php return;
-        } ?>
+		<?php // Get list of businesses from Wave Apps API
+		$businesses = eddwave()->get_wave_businesses();
+		if ( ! $businesses || isset( $businesses['errors'] ) ) { ?>
+			<div>
+				<?php esc_html_e( 'Error fetching businesses for this token: ', 'edd-wave' ); ?>
+				<strong><?php esc_html_e( $businesses['errors'][0]['message'] ); ?> </strong>
+				<br><?php esc_html_e( 'Verify you are authenticated for this domain, and try re-loading the page', 'edd-wave' );
+				submit_button( null, '', 'edd-wave-submit' ); ?>
+			</div>
+			<?php return;
+		} ?>
 
-        <div style="column-gap:2em;display:flex;flex-wrap:wrap;justify-content:flex-start;">
-            <div class="white-bx-rnd">
-                <p>
-                    <select name="business_id" id="business_id">
-					    <?php
-					    $business_id = $this->settings['business_id'] ?? '';
-					    $option_html_output = '<option value="">&mdash; Select &mdash;</option>';
-					    foreach ( $businesses['data']['businesses']['edges'] as $edge ) {
-						    $option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $business_id ) . '>' . $edge['node']['name'] . '</option>';
-					    }
-					    echo $option_html_output;
-					    ?>
-                    </select>
-                    <br>
-                    <label for="business_id"><strong>Wave Business ID</strong></label>
-                </p>
-            </div>
-        </div>
+		<div style="column-gap:2em;display:flex;flex-wrap:wrap;justify-content:flex-start;">
+			<div class="white-bx-rnd">
+				<p>
+					<select name="business_id" id="business_id">
+						<?php
+						$business_id = $this->settings['business_id'] ?? '';
+						$option_html_output = '<option value="">&mdash; Select &mdash;</option>';
+						foreach ( $businesses['data']['businesses']['edges'] as $edge ) {
+							$option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $business_id ) . '>' . $edge['node']['name'] . '</option>';
+						}
+						echo $option_html_output;
+						?>
+					</select>
+					<br>
+					<label for="business_id"><strong>Wave Business ID</strong></label>
+				</p>
+			</div>
+		</div>
 
-    <?php }
+	<?php }
 
-    protected function output_income_account_selects() { ?>
+	protected function output_income_account_selects() { ?>
 
-        <h2>Income Accounts</h2>
+		<h2>Income Accounts</h2>
 
-        <?php $wave_asset_accounts = eddwave()->get_wave_accounts( 'ASSET' );
-        if ( ! $wave_asset_accounts
-             || isset( $wave_asset_accounts['errors'] )
-             || ! is_array( $wave_asset_accounts['data']['business']['accounts']['edges'] )
-        ) { ?>
-            <p>
-                <?php if ( isset( $wave_asset_accounts['errors'] ) ) {
-                    esc_html_e( 'Error fetching Wave income accounts: ', 'edd-wave' ); ?>
-                    <strong><?php esc_html_e( $wave_asset_accounts['errors'][0]['message'] ); ?> </strong>
-                    <br><?php esc_html_e( 'Verify you have selected the correct Wave business account above and try re-loading the page.', 'edd-wave' ); ?>
-                    <?php submit_button( null, '', 'edd-wave-submit' );
-                } else {
-                    esc_html_e( 'You must be connected to Wave API to retrieve accounts.', 'edd-wave' );
-                } ?>
-            </p>
-            <?php
-            return;
-        } ?>
+		<?php $wave_asset_accounts = eddwave()->get_wave_accounts( 'ASSET' );
+		if ( ! $wave_asset_accounts
+			 || isset( $wave_asset_accounts['errors'] )
+			 || ! is_array( $wave_asset_accounts['data']['business']['accounts']['edges'] )
+		) { ?>
+			<p>
+				<?php if ( isset( $wave_asset_accounts['errors'] ) ) {
+					esc_html_e( 'Error fetching Wave income accounts: ', 'edd-wave' ); ?>
+					<strong><?php esc_html_e( $wave_asset_accounts['errors'][0]['message'] ); ?> </strong>
+					<br><?php esc_html_e( 'Verify you have selected the correct Wave business account above and try re-loading the page.', 'edd-wave' ); ?>
+					<?php submit_button( null, '', 'edd-wave-submit' );
+				} else {
+					esc_html_e( 'You must be connected to Wave API to retrieve accounts.', 'edd-wave' );
+				} ?>
+			</p>
+			<?php
+			return;
+		} ?>
 
-        <div style="column-gap:2em;display:flex;flex-wrap:wrap;justify-content:flex-start;">
+		<div style="column-gap:2em;display:flex;flex-wrap:wrap;justify-content:flex-start;">
 
-        <?php $paypal_anchor_account_id = $this->settings['paypal_anchor_account_id'] ?? '';
-        if ( ! empty( $paypal_anchor_account_id ) ) { ?>
-            <div>
-                <h2>PayPal Account</h2>
-                <div class="white-bx-rnd">
-                    <p>
-                        <label for="paypal_anchor_account_id">PayPal Anchor Account ID</label><br />
+		<?php $paypal_anchor_account_id = $this->settings['paypal_anchor_account_id'] ?? '';
+		if ( ! empty( $paypal_anchor_account_id ) ) { ?>
+			<div>
+				<h2>PayPal Account</h2>
+				<div class="white-bx-rnd">
+					<p>
+						<label for="paypal_anchor_account_id">PayPal Anchor Account ID</label><br />
 
-                        <select name="paypal_anchor_account_id" id="paypal_anchor_account_id">
-                            <?php
-                            $option_html_output = '<option value="">&mdash; Select &mdash;</option>';
-                            foreach ( $wave_asset_accounts['data']['business']['accounts']['edges'] as $edge ) {
-                                if ( $edge['node']['isArchived'] ) {
-                                    continue;
-                                }
-                                $option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $paypal_anchor_account_id ) . '>' . $edge['node']['name'] . '</option>';
-                            }
-                            echo $option_html_output;
-                            ?>
-                        </select>
-                    </p>
-                </div>
-            </div>
-        <?php }
+						<select name="paypal_anchor_account_id" id="paypal_anchor_account_id">
+							<?php
+							$option_html_output = '<option value="">&mdash; Select &mdash;</option>';
+							foreach ( $wave_asset_accounts['data']['business']['accounts']['edges'] as $edge ) {
+								if ( $edge['node']['isArchived'] ) {
+									continue;
+								}
+								$option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $paypal_anchor_account_id ) . '>' . $edge['node']['name'] . '</option>';
+							}
+							echo $option_html_output;
+							?>
+						</select>
+					</p>
+				</div>
+			</div>
+		<?php }
 
-        // STRIPE
-        $stripe_anchor_account_id = $this->settings['stripe_anchor_account_id'] ?? '';
-        if ( ! empty( $stripe_anchor_account_id ) ) { ?>
-            <div>
-                <h2>Stripe Account</h2>
-                <div class="white-bx-rnd">
-                    <p>
-                        <label for="stripe_anchor_account_id">Stripe Anchor Account ID</label><br />
+		// STRIPE
+		$stripe_anchor_account_id = $this->settings['stripe_anchor_account_id'] ?? '';
+		if ( ! empty( $stripe_anchor_account_id ) ) { ?>
+			<div>
+				<h2>Stripe Account</h2>
+				<div class="white-bx-rnd">
+					<p>
+						<label for="stripe_anchor_account_id">Stripe Anchor Account ID</label><br />
 
-                        <select name="stripe_anchor_account_id" id="stripe_anchor_account_id">
-                            <?php $option_html_output = '<option value="">&mdash; Select &mdash;</option>';
-                            foreach ( $wave_asset_accounts['data']['business']['accounts']['edges'] as $edge ) {
-                                $option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $stripe_anchor_account_id ) . '>' . $edge['node']['name'] . '</option>';
-                            }
-                            echo $option_html_output;
-                            ?>
-                        </select>
-                    </p>
-                </div>
-            </div>
-        <?php } ?>
-        </div>
+						<select name="stripe_anchor_account_id" id="stripe_anchor_account_id">
+							<?php $option_html_output = '<option value="">&mdash; Select &mdash;</option>';
+							foreach ( $wave_asset_accounts['data']['business']['accounts']['edges'] as $edge ) {
+								$option_html_output .= '<option value="' . $edge['node']['id'] . '"' . selected( $edge['node']['id'], $stripe_anchor_account_id ) . '>' . $edge['node']['name'] . '</option>';
+							}
+							echo $option_html_output;
+							?>
+						</select>
+					</p>
+				</div>
+			</div>
+		<?php } ?>
+		</div>
 
-    <?php
-    }
+	<?php
+	}
 
 	/**
 	 * Display income mapped settings table
@@ -307,23 +307,23 @@ class Settings {
 	protected function output_product_mapping_table() { ?>
 
 		<h2>Product Mapping</h2>
-        <?php $wave_accounts = eddwave()->get_wave_accounts( 'INCOME' );
-         if ( ! isset( $wave_accounts['data']['business']['accounts']['edges'] ) || ! is_array( $wave_accounts['data']['business']['accounts']['edges'] ) ) {
-            esc_html_e( 'You must be connected to Wave API to retrieve products.', 'edd-wave' );
-            return;
-        } ?>
+		<?php $wave_accounts = eddwave()->get_wave_accounts( 'INCOME' );
+		 if ( ! isset( $wave_accounts['data']['business']['accounts']['edges'] ) || ! is_array( $wave_accounts['data']['business']['accounts']['edges'] ) ) {
+			esc_html_e( 'You must be connected to Wave API to retrieve products.', 'edd-wave' );
+			return;
+		} ?>
 
 		<div class="white-bx-rnd d-inline-block">
 			<p>
-                <?php esc_html_e( 'Match your products to your Chart of Account income items below.', 'edd-wave' ); ?>
-            </p>
+				<?php esc_html_e( 'Match your products to your Chart of Account income items below.', 'edd-wave' ); ?>
+			</p>
 			<table>
 				<thead>
-                    <tr>
-                        <th><?php esc_html_e( 'Local EDD Product', 'edd-wave' ); ?></th>
-                        <th>&nbsp;</th>
-                        <th><?php esc_html_e( 'Wave Income Account', 'edd-wave' ); ?></th>
-                    </tr>
+					<tr>
+						<th><?php esc_html_e( 'Local EDD Product', 'edd-wave' ); ?></th>
+						<th>&nbsp;</th>
+						<th><?php esc_html_e( 'Wave Income Account', 'edd-wave' ); ?></th>
+					</tr>
 				</thead>
 
 				<tbody>
@@ -334,13 +334,13 @@ class Settings {
 				$option_html_output = '';
 				$default_account = '';
 
-                foreach ( $wave_accounts['data']['business']['accounts']['edges'] as $edge ) {
-                    // Determine ID of "Uncategorized Income" account
-                    if ( 'uncategorized income' === strtolower( $edge['node']['name'] ) ) {
-                        $default_account = $edge['node']['id'];
-                    }
-                    $option_html_output .= '<option value="' . $edge['node']['id'] . '">' . $edge['node']['name'] . '</option>';
-                }
+				foreach ( $wave_accounts['data']['business']['accounts']['edges'] as $edge ) {
+					// Determine ID of "Uncategorized Income" account
+					if ( 'uncategorized income' === strtolower( $edge['node']['name'] ) ) {
+						$default_account = $edge['node']['id'];
+					}
+					$option_html_output .= '<option value="' . $edge['node']['id'] . '">' . $edge['node']['name'] . '</option>';
+				}
 
 				// Now let's get all the EDD products
 				$args = [
@@ -410,8 +410,8 @@ class Settings {
 
 		<?php $expense_accounts = eddwave()->get_wave_accounts( 'EXPENSE' );
 		if ( ! isset( $expense_accounts['data']['business']['accounts']['edges'] )
-             || ! is_array( $expense_accounts['data']['business']['accounts']['edges'] )
-        ) {
+			|| ! is_array( $expense_accounts['data']['business']['accounts']['edges'] )
+		) {
 			esc_html_e( 'You must be connected to Wave API to retrieve expenses.', 'edd-wave' );
 			return;
 		} ?>
@@ -513,11 +513,11 @@ class Settings {
 
 	protected function output_tax_settings_table() { ?>
 
-        <h2>Tax Mapping</h2>
-        <?php
-        $liability_accounts = eddwave()->get_wave_accounts( 'LIABILITY' );
+		<h2>Tax Mapping</h2>
+		<?php
+		$liability_accounts = eddwave()->get_wave_accounts( 'LIABILITY' );
 		if ( ! isset( $liability_accounts['data']['business']['accounts']['edges'] )
-		     || ! is_array( $liability_accounts['data']['business']['accounts']['edges'] )
+			 || ! is_array( $liability_accounts['data']['business']['accounts']['edges'] )
 		) {
 			esc_html_e( 'You must be connected to Wave API to retrieve liability accounts.', 'edd-wave' );
 			return;
