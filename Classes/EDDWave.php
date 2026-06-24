@@ -660,15 +660,14 @@ final class EDDWave {
 			wp_die( 'Unauthorized' );
 		}
 
-		$oauth = new OAuth();
-		$url   = $oauth->get_authorization_url();
+		$oauth_url = (new OAuth())->get_authorization_url();
 
-		if ( $url ) {
-			wp_redirect( $url );
+		if ( $oauth_url ) {
+			wp_redirect( $oauth_url );
 			exit;
-		} else {
-			wp_die( __( 'Wave + EDD: OAuth not configured properly. Please check Client ID and Secret in settings.', 'edd-wave' ) );
 		}
+
+		wp_die( __( 'Wave + EDD: OAuth not configured properly. Please check Client ID and Secret in settings.', 'edd-wave' ) );
 
 	}
 
@@ -689,6 +688,7 @@ final class EDDWave {
 			wp_redirect( admin_url( 'edit.php?post_type=download&page=wave-edd&settings-updated=true' ) );
 		}
 		exit;
+
 	}
 
 }
