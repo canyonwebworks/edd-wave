@@ -22,6 +22,4 @@ Tax, multicurrency, refunds, and fee coverage is minimal so far, so if you'd lik
 ## Before Using
 Please review the code. See that best efforts have been made to protect everyone's data. Understand all software comes with risk. Proceed if you consent to the terms of the (included) GNU software license.
 
-This code is written by a human. Be kind. 
-
 
