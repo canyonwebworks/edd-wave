@@ -1,0 +1,222 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Wave + Easy Digital Downloads\n"
+"POT-Creation-Date: 2026-06-24 13:52-0600\n"
+"PO-Revision-Date: 2026-06-17 09:15-0600\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 3.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: edd-wave.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+
+#: Classes/EDDWave.php:64
+msgid ""
+"Wave + EDD warning: a Wave access token must be saved in settings to reach "
+"API."
+msgstr ""
+
+#: Classes/EDDWave.php:141
+msgid "Bad (unusable) response from PayPal API."
+msgstr ""
+
+#: Classes/EDDWave.php:146
+msgid "EDD payment object doesn't seem to include any downloads."
+msgstr ""
+
+#: Classes/EDDWave.php:191 Classes/EDDWave.php:239
+msgid "Wave + EDD error: no data collected to send to Wave!"
+msgstr ""
+
+#: Classes/EDDWave.php:226
+msgid "Wave + EDD error: API Balance Transaction fetch failed. Aborting"
+msgstr ""
+
+#: Classes/EDDWave.php:252
+msgid ""
+"Wave + EDD warning: Merchant fee data is missing so it is impossible to send "
+"a balanced transaction to Wave. Aborting."
+msgstr ""
+
+#: Classes/EDDWave.php:298
+msgid "Wave + EDD error: Could not get Wave account ID to apply refund to."
+msgstr ""
+
+#: Classes/EDDWave.php:330
+msgid ""
+"Wave + EDD warning: A cart item was skipped in the foreach() loop, due to "
+"missing item ID."
+msgstr ""
+
+#: Classes/EDDWave.php:335
+msgid ""
+"Wave + EDD warning: Software License upgrade purchase not logged in Wave for "
+"payment ID: "
+msgstr ""
+
+#: Classes/EDDWave.php:475
+msgid "Wave + EDD error: Payment not created at Wave."
+msgstr ""
+
+#: Classes/EDDWave.php:639
+msgid "Wave + EDD error: Failed to fetch accounts from Wave."
+msgstr ""
+
+#: Classes/EDDWave.php:670
+msgid ""
+"Wave + EDD: OAuth not configured properly. Please check Client ID and Secret "
+"in settings."
+msgstr ""
+
+#: Classes/Settings.php:62
+msgid "View EDD Wave settings"
+msgstr ""
+
+#: Classes/Settings.php:62
+msgid "Settings"
+msgstr ""
+
+#: Classes/Settings.php:111
+#, php-format
+msgid ""
+"Don't know where to start? <a href=\"%s\" target=\"_blank\" "
+"rel=\"noopener\">Start with a Wave account and API Application</a>"
+msgstr ""
+
+#: Classes/Settings.php:138
+msgid "Connect to Wave Apps"
+msgstr ""
+
+#: Classes/Settings.php:141
+msgid "Click to authorize this site with your Wave account."
+msgstr ""
+
+#: Classes/Settings.php:157
+msgid ""
+"It is not secure and therefore inadvisable to use a full access key except "
+"in a development environment."
+msgstr ""
+
+#: Classes/Settings.php:158
+msgid ""
+"This option might benefit users without a paid Wave account, but Canyon "
+"Webworks assumes no responsibility for consequences of saving and using a "
+"Full Access Token here."
+msgstr ""
+
+#: Classes/Settings.php:158
+msgid "Please use a Wave Client ID + Client Secret instead."
+msgstr ""
+
+#: Classes/Settings.php:164
+msgid ""
+"A Wave Client ID + Wave Client Secret -or- Wave Full Access Token must be "
+"saved here to continue."
+msgstr ""
+
+#: Classes/Settings.php:197
+msgid "Error fetching businesses for this token: "
+msgstr ""
+
+#: Classes/Settings.php:199
+msgid ""
+"Verify you are authenticated for this domain, and try re-loading the page"
+msgstr ""
+
+#: Classes/Settings.php:237
+msgid "Error fetching Wave income accounts: "
+msgstr ""
+
+#: Classes/Settings.php:239
+msgid ""
+"Verify you have selected the correct Wave business account above and try re-"
+"loading the page."
+msgstr ""
+
+#: Classes/Settings.php:242
+msgid "You must be connected to Wave API to retrieve accounts."
+msgstr ""
+
+#: Classes/Settings.php:312
+msgid "You must be connected to Wave API to retrieve products."
+msgstr ""
+
+#: Classes/Settings.php:318
+msgid "Match your products to your Chart of Account income items below."
+msgstr ""
+
+#: Classes/Settings.php:323
+msgid "Local EDD Product"
+msgstr ""
+
+#: Classes/Settings.php:325
+msgid "Wave Income Account"
+msgstr ""
+
+#: Classes/Settings.php:415
+msgid "You must be connected to Wave API to retrieve expenses."
+msgstr ""
+
+#: Classes/Settings.php:421
+msgid "Match your fees, etc. to your Chart of Account expense items below."
+msgstr ""
+
+#: Classes/Settings.php:425
+msgid "Local Expenses"
+msgstr ""
+
+#: Classes/Settings.php:427
+msgid "Wave Expense Account"
+msgstr ""
+
+#: Classes/Settings.php:446
+msgid "Discounts"
+msgstr ""
+
+#: Classes/Settings.php:464
+msgid "Stripe Merchant Account Fees"
+msgstr ""
+
+#: Classes/Settings.php:494
+msgid "PayPal Merchant Account Fees"
+msgstr ""
+
+#: Classes/Settings.php:522
+msgid "You must be connected to Wave API to retrieve liability accounts."
+msgstr ""
+
+#: Classes/Settings.php:527
+msgid ""
+"Need better tax mapping? Consider hiring Canyon Webworks to build it, or "
+"submit a strong pull request."
+msgstr ""
+
+#: edd-wave.php:48
+msgid ""
+"The EDD Wave plugin requires Easy Digital Downloads be installed and "
+"activated."
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Wave + Easy Digital Downloads"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"This helpful bookkeeping WP plugin moves a successful EDD purchase into Wave "
+"Apps accounting, with a payment entry under Accounting -> Transactions."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Canyon Webworks"
+msgstr ""
