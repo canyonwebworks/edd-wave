@@ -60,6 +60,8 @@ final class EDDWave {
 
 		add_action( 'init', [ $this, 'init' ] );
 
+		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ] );
+
 		if ( empty( $this->access_token ) && empty( $this->full_access_token ) ) {
 			edd_debug_log( __( 'Wave + EDD warning: a Wave access token must be saved in settings to reach API.', 'edd-wave' ) );
 			return;
@@ -83,7 +85,7 @@ final class EDDWave {
 	}
 
 	/**
-	 * Fire up the admin settings class
+	 * Fire up the settings and oauth handlers
 	 *
 	 * @return void
 	 */
@@ -102,9 +104,19 @@ final class EDDWave {
 				add_action( 'admin_post_nopriv_edd_wave_oauth_callback',    [ $this, 'oauth_callback_handler' ] ); // Just in case
 
 			}
-			load_plugin_textdomain( 'edd-wave', false, EDD_WAVE_PLUGIN_DIR . '/lang' );
 
 		}
+
+	}
+
+	/**
+	 * Load i18n
+	 *
+	 * @return void
+	 */
+	public function plugins_loaded() {
+
+		load_plugin_textdomain( 'edd-wave', false, EDD_WAVE_PLUGIN_DIR . '/lang' );
 
 	}
 
