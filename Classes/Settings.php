@@ -30,6 +30,8 @@ class Settings {
 		// Save settings. Admin-side post including action value "edd_wave_settings" fires this hook
 		add_action( 'admin_post_edd_wave_settings', [ $this, 'save_settings' ] );
 
+		add_filter( 'edd_settings_page_title', [ $this, 'edd_settings_page_title' ], 10, 3 );
+
 	}
 
 	/**
@@ -95,6 +97,7 @@ class Settings {
 			[ $this, 'options_page' ],
 			10
 		);
+
 	}
 
 	/**
@@ -634,6 +637,15 @@ class Settings {
 		}
 		wp_safe_redirect( admin_url( 'edit.php?post_type=download&page=wave-edd' ) );
 		exit;
+
+	}
+
+	public function edd_settings_page_title( $page_title, $current_page, $is_single_view ) {
+
+		if ( 'Wave-edd' === $page_title ) {
+			$page_title = 'Wave + EDD Settings';
+		}
+		return $page_title;
 
 	}
 
